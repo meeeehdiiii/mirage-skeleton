@@ -48,9 +48,15 @@ clean: $(CLEANS)
 %-configure:
 	cd $* && $(MIRAGE) configure -t $(MODE) $(MIRAGE_FLAGS)
 
-%-build: %-configure
+%-duniverse: %-configure
+	cd $* && duniverse opam -v '--opam-remote=git+https://github.com/mirage/mirage-dev.git#dune'
+	cd $* && duniverse lock -v
+	cd $* && duniverse opam-install -y
+	cd $* && duniverse pull
+
+%-build: %-duniverse
 	-cp Makefile.user $*
-	cd $* && $(MAKE) depend && $(MAKE)
+	cd $* && $(MAKE)
 
 %-clean:
 	-cd $* && $(MAKE) clean
