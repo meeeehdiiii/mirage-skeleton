@@ -49,8 +49,7 @@ clean: $(CLEANS)
 	cd $* && $(MIRAGE) configure -t $(MODE) $(MIRAGE_FLAGS)
 
 %-duniverse: %-configure
-	cd $* && duniverse opam -v '--opam-remote=git+https://github.com/mirage/mirage-dev.git#dune'
-	cd $* && duniverse lock -v
+	cd $* && duniverse init -v --opam-remote='git+https://github.com/mirage/mirage-dev.git#dune' --overlay='git+https://github.com/TheLortex/opam-overlays.git#wip'
 	cd $* && duniverse opam-install -y
 	cd $* && duniverse pull
 
