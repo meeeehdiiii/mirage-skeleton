@@ -52,6 +52,7 @@ clean: $(CLEANS)
 	cd $* && duniverse init --opam-remote='git+https://github.com/mirage/mirage-dev.git#dune' --overlay='git+https://github.com/TheLortex/opam-overlays.git#wip'
 	cd $* && duniverse opam-install -y
 	cd $* && duniverse pull
+	cd $* && dune upgrade
 
 %-build: %-duniverse
 	-cp Makefile.user $*
