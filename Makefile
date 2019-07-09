@@ -48,11 +48,17 @@ clean: $(CLEANS)
 %-configure:
 	cd $* && $(MIRAGE) configure -t $(MODE) $(MIRAGE_FLAGS)
 
+
 %-duniverse: %-configure
 	cd $* && duniverse init --opam-remote='git+https://github.com/TheLortex/mirage-dev.git#master'
 	cd $* && duniverse opam-install -y
 	cd $* && duniverse pull
 	cd $* && dune upgrade
+	mv $(wildcard $*/*.opam) $*/mirage-unikernel.opam
+	opam pin add -k path --no-action --yes mirage-unikernel $*
+	opam depext --yes --update mirage-unikernel
+	opam pin remove --no-action mirage-unikernel
+	rm $*/mirage-unikernel.opam
 
 %-build: %-duniverse
 	-cp Makefile.user $*
