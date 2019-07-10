@@ -4,7 +4,7 @@ let main = foreign "Unikernel.Main" (console @-> network @-> mclock @-> time @->
 
 let () =
   let packages = [
-    package ~min:"0.5" ~ocamlfind:["charrua-core.server"; "charrua-core.wire"] "charrua-core";
+    package ~min:"1.0.0" "charrua-server";
     package "arp-mirage";
     package "ethernet"
   ]
